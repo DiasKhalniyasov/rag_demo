@@ -21,6 +21,7 @@ You can find the data in [`data/data.csv`](data/data.csv).
 - Docker and Docker Compose for containerization
 - [Minsearch](https://github.com/alexeygrigorev/minsearch) for full-text search
 - Flask as the API interface (see [Background](#background) for more information on Flask)
+- **python-telegram-bot** for Telegram bot integration
 - Grafana for monitoring and PostgreSQL as the backend for it
 - OpenAI as an LLM
 
@@ -48,12 +49,27 @@ The difference is minimal, so I opted for `gpt-4o-mini`.
 
 ## Preparation
 
-Since we use OpenAI, you need to provide the API key:
+Since we use OpenAI, you need to provide the API key. For the Telegram bot, you also need a Telegram Bot Token.
+
+### API Keys Setup
+
+Edit the `.env` file and add your keys:
+
+```bash
+# OpenAI API Key (REQUIRED)
+OPENAI_API_KEY=your-openai-key-here
+
+# Telegram Bot Token (REQUIRED for Telegram bot)
+# Get from @BotFather on Telegram
+TELEGRAM_BOT_TOKEN=your-telegram-bot-token-here
+```
+
+Alternatively, you can use `direnv`:
 
 1. Install `direnv`. If you use Ubuntu, run `sudo apt install direnv` and then `direnv hook bash >> ~/.bashrc`.
-2. Copy `.envrc_template` into `.envrc` and insert your key there.
+2. Copy `.env` to `.envrc` and insert your keys there.
 3. For OpenAI, it's recommended to create a new project and use a separate key.
-4. Run `direnv allow` to load the key into your environment.
+4. Run `direnv allow` to load the keys into your environment.
 
 For dependency management, we use pipenv, so you need to install it:
 
@@ -130,6 +146,48 @@ python app.py
 ## Using the application
 
 When the application is running, we can start using it.
+
+### Telegram Bot 🤖 (NEW!)
+
+The easiest way to interact with the Law Assistant is through **Telegram**!
+
+The Telegram bot allows users to ask questions about Kazakhstan administrative law directly through Telegram messenger. It uses the RAG system to provide accurate answers.
+
+**Quick Start:**
+
+1. Set up your API keys in `.env`:
+   ```bash
+   OPENAI_API_KEY=your-openai-key
+   TELEGRAM_BOT_TOKEN=your-telegram-bot-token
+   ```
+
+2. Install dependencies:
+   ```bash
+   pipenv install
+   ```
+
+3. Run the bot:
+   ```bash
+   pipenv run python telegram_bot.py
+   ```
+
+**Features:**
+- Interactive Q&A in Telegram
+- Statistics command (`/stats`)
+- Bilingual support (Russian/English)
+- Optional database logging
+
+📖 **For detailed setup instructions, see [TELEGRAM_BOT_GUIDE.md](TELEGRAM_BOT_GUIDE.md)**
+
+### Terminal Test Script
+
+A simple terminal test script to try the RAG system without setting up the full application:
+
+```bash
+pipenv run python terminal_test.py
+```
+
+This allows you to test questions directly in your terminal with full statistics.
 
 ### CLI
 
@@ -257,5 +315,3 @@ Then go to [localhost:3000](http://localhost:3000):
 - Password: "admin"
 
 When prompted, keep "admin" as the new password.
-
->>>>>>> fix readme and load project

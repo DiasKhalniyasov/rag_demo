@@ -11,6 +11,7 @@ flask = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 gunicorn = "*"
+python-telegram-bot = "*"
 
 [dev-packages]
 tqdm = "*"
